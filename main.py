@@ -20,16 +20,16 @@ def generateWM(name, verbose=False):
 
     # Load logo and font
     logo = Image.open('assets/img/logo_transparent.png')
-    font32 = ImageFont.truetype("assets/font/yugothic-medium.otf", 32)
-    font72 = ImageFont.truetype("assets/font/yugothic-medium.otf", 72)
+    font32 = ImageFont.truetype("assets/font/SourceSansPro-Regular.otf", 32)
+    font90 = ImageFont.truetype("assets/font/SourceSansPro-Regular.otf", 90)
 
     # Rectangle
     rect = Image.new('RGB', (110, 15), white)
 
     # Copy logo & Rectangle
     background.paste(logo, (0, 0))
-    background.paste(rect, (190, 110))
-    background.paste(rect, (width-110, 110))
+    background.paste(rect, (190, 115))
+    background.paste(rect, (width-110, 115))
 
     # Write "Graines d'images" on WM
     txt = "Graines d'images"
@@ -37,13 +37,13 @@ def generateWM(name, verbose=False):
     drawer.text((190+(250-(font32.getsize(txt)[0]/2)), 100), txt, font=font32)
 
     # Check size of name
-    nameSize = font72.getsize(name)
+    nameSize = font90.getsize(name)
     if nameSize[0] > 500:
         print(nameSize)
         print(f"The name {name} is to big !")
         return False
     # Write name on WM
-    drawer.text((190+(250-(nameSize[0]/2)), 55-(nameSize[1]/2)), name, font=font72)
+    drawer.text((190+(250-(nameSize[0]/2)), 0), name, font=font90)
 
     # Save to png
     background.save(f"WM_{name}.png", "PNG")
