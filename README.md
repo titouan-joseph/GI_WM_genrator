@@ -1,4 +1,6 @@
-# Watermark generator
+# GI_WM_generator
+
+Watermark generator for [graines d'images association](https://www.grainesdimages.fr/)
 
 Take logo on ``assets/img/logo_transparent.png`` with 179px width and 134px height 
 
