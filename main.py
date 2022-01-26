@@ -21,7 +21,11 @@ def generateWM(name, verbose=False):
     # Load logo and font
     logo = Image.open('assets/img/logo_transparent.png')
     font32 = ImageFont.truetype("assets/font/SourceSansPro-Regular.otf", 32)
-    font90 = ImageFont.truetype("assets/font/SourceSansPro-Regular.otf", 90)
+    
+    # Dynamic font size support
+    dynFontSizeStart = 100
+    dynFontSizeStop = 40
+    dynFontSize = dynFontSizeStart
 
     # Rectangle
     rect = Image.new('RGB', (110, 15), white)
@@ -36,14 +40,29 @@ def generateWM(name, verbose=False):
     drawer = ImageDraw.Draw(background)
     drawer.text((190+(250-(font32.getsize(txt)[0]/2)), 100), txt, font=font32)
 
+    # We find out what is the best size to fill the 500px area
+    while True:
+        #Checking if the dynamic text is whithin bounds
+        if ImageFont.truetype("assets/font/SourceSansPro-Regular.otf", dynFontSize).getsize(name)[0] > 500:
+            dynFontSize = dynFontSize - 1
+            # We don't go too far in reducing size
+            if dynFontSize < dynFontSizeStop:
+                print(f"The name {name} is to big !")
+                break
+        else:
+            break
+
+    fontDyn = ImageFont.truetype("assets/font/SourceSansPro-Regular.otf", dynFontSize)
     # Check size of name
-    nameSize = font90.getsize(name)
-    if nameSize[0] > 500:
+    nameSize = fontDyn.getsize(name)
+
+    if ImageFont.truetype("assets/font/SourceSansPro-Regular.otf", dynFontSize).getsize(name)[0] > 500:
         print(nameSize)
         print(f"The name {name} is to big !")
         return False
+    
     # Write name on WM
-    drawer.text((190+(250-(nameSize[0]/2)), 0), name, font=font90)
+    drawer.text((190+(250-(nameSize[0]/2)), 80-(nameSize[1]/1.15)), name, font=fontDyn)
 
     # Save to png
     background.save(f"WM_{name}.png", "PNG")
